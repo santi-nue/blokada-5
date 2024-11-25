@@ -2,6 +2,19 @@ name: Build & Release
 
 on:
   workflow_dispatch:
+    inputs:
+      major-version:
+        description: 'Major version tag'
+        required: true
+        type: string
+      minor-version:
+        description: 'Minor version tag'
+        required: true
+        type: string
+      patch-version:
+        description: 'Patch version tag'
+        required: true
+        type: string
 
 jobs:
   build-release:
@@ -14,4 +27,4 @@ jobs:
         submodules: recursive
     
     - name: run release script
-      run: bash release.sh
+      run: bash release.sh ${{ github.event.inputs.major-version }} ${{ github.event.inputs.minor-version }} ${{ github.event.inputs.patch-version }}
