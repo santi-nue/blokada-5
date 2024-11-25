@@ -1,0 +1,17 @@
+name: Build & Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    
+    - name: run release script
+      run: bash release.sh
