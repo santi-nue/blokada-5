@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: set git user
+      uses: fregante/setup-git-user@v2
     - name: checkout repo
       uses: actions/checkout@v4
       with:
