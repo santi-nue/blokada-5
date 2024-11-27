@@ -21,12 +21,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: set git user
-      uses: fregante/setup-git-user@v2
     - name: checkout repo
       uses: actions/checkout@v4
       with:
         submodules: recursive
+    - name: set git user
+      uses: fregante/setup-git-user@v2
     
     - name: run release script
       run: bash release.sh ${{ github.event.inputs.major-version }} ${{ github.event.inputs.minor-version }} ${{ github.event.inputs.patch-version }}
