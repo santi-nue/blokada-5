@@ -29,8 +29,6 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Install Android SDK
-        env:
-          SDKMANAGER_OPTS: '--sdk_root=${ANDROID_SDK_ROOT}'
         run: |
           mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
           curl -fo sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
