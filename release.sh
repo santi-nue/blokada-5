@@ -31,7 +31,7 @@ commit="release: $tag"
 
 echo "Marking release: $tag..."
 
-sed -i '' "s/versionCode .*/versionCode 666$1$2$3/; s/versionName .*/versionName \"$tag\"/" app/build.gradle
+sed -i "s/versionCode .*/versionCode 666$1$2$3/; s/versionName .*/versionName \"$tag\"/" app/build.gradle
 git add app/build.gradle
 git commit -m "$commit"
 git tag $tag
