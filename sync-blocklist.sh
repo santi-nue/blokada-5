@@ -16,7 +16,7 @@ cp cleaned-hosts.txt ../app/src/libre/assets/default_blocklist
 rm cleaned-hosts.txt
 cd ../app/src/libre/assets/
 rm default_blocklist.zip
-zip -e default_blocklist.zip default_blocklist
+zip default_blocklist.zip default_blocklist
 rm default_blocklist
 cd ../../../
 
