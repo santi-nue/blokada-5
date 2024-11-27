@@ -7,6 +7,7 @@ on:
 
 env:
   main_project_module: app
+  ANDROID_HOME: ${{ github.workspace }}/android-sdk
   ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
 
 jobs:
@@ -30,13 +31,13 @@ jobs:
 
       - name: Install Android SDK
         run: |
-          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+          mkdir -p $ANDROID_HOME/cmdline-tools
           curl -fo sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-          unzip sdk-tools.zip -d $ANDROID_SDK_ROOT/cmdline-tools
-          mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
+          unzip sdk-tools.zip -d $ANDROID_HOME/cmdline-tools
+          mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
           echo "Installing SDK components..."
-          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
             "platform-tools" \
             "platforms;android-33" \
             "build-tools;33.0.0" \
@@ -45,20 +46,23 @@ jobs:
 
       - name: Set up environment variables
         run: |
-          echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT}" >> $GITHUB_ENV
-          echo "$ANDROID_SDK_ROOT/platform-tools" >> $GITHUB_PATH
+          echo "ANDROID_HOME=${ANDROID_HOME}" >> $GITHUB_ENV
+          echo "ANDROID_SDK_ROOT=${ANDROID_HOME}" >> $GITHUB_ENV
+          echo "${ANDROID_HOME}/platform-tools" >> $GITHUB_PATH
 
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
       - name: Build app
         env:
-          ANDROID_NDK_HOME: ${{ env.ANDROID_SDK_ROOT }}/ndk/25.1.8937393
+          ANDROID_NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/25.1.8937393
         run: ./gradlew assembleFiveRelease
 
       - name: Run Lint
@@ -66,4 +70,3 @@ jobs:
 
       - name: Run Unit Tests
         run: ./gradlew test
-
