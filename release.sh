@@ -36,5 +36,4 @@ git add app/build.gradle
 git commit -m "$commit"
 git tag $tag
 
-echo "Done. Run this to push:"
-echo "git push --atomic origin main $tag"
+git push --atomic origin main $tag
