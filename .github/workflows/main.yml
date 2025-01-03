@@ -63,7 +63,7 @@ jobs:
       - name: Build app
         env:
           ANDROID_NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/25.1.8937393
-        run: ./gradlew assembleFiveRelease
+        run: ./gradlew --warning-mode all assembleFiveRelease
 
       - name: Run Lint
         run: ./gradlew lint
