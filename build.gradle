@@ -36,6 +36,24 @@ allprojects {
         google()
         jcenter()
     }
+
+    configurations.all {
+        resolutionStrategy {
+            eachDependency { details ->
+                // Force android-annotation to 3.0.0
+                if (details.requested.group == "com.twofortyfouram"
+                        && details.requested.name == "android-annotation") {
+                    details.useVersion "3.0.0"
+                }
+
+                // Force android-assertion to 2.0.0
+                if (details.requested.group == "com.twofortyfouram"
+                        && details.requested.name == "android-assertion") {
+                    details.useVersion "2.0.0"
+                }
+            }
+        }
+    }
 }
 
 task clean(type: Delete) {
