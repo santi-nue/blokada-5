@@ -71,6 +71,13 @@ jobs:
       - name: Build app
         run: ./gradlew --warning-mode all assembleFiveRelease
 
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.apk
+          path: app/build/outputs/apk/
+          
+
      # - name: Run Lint
      #   run: ./gradlew lint
 
